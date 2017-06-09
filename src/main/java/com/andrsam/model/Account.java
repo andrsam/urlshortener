@@ -1,30 +1,20 @@
 package com.andrsam.model;
 
 public class Account {
-    boolean success;
-    String description;
+    String accountId;
     String password;
 
-    public Account(boolean success, String description, String password) {
-        this.success = success;
-        this.description = description;
+    public Account(String accountId, String password) {
+        this.accountId = accountId;
         this.password = password;
     }
 
-    public boolean isSuccess() {
-        return success;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public String getPassword() {
@@ -36,10 +26,27 @@ public class Account {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Account account = (Account) o;
+
+        if (!accountId.equals(account.accountId)) return false;
+        return password.equals(account.password);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = accountId.hashCode();
+        result = 31 * result + password.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "Account{" +
-                "success=" + success +
-                ", description='" + description + '\'' +
+                "accountId='" + accountId + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }
