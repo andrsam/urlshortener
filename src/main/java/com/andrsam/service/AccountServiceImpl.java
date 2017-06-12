@@ -24,8 +24,12 @@ public class AccountServiceImpl implements AccountService {
             // at least one digit character
             new CharacterRule(EnglishCharacterData.Digit, 1));
 
+    final AccountDao accountDao;
+
     @Autowired
-    AccountDao accountDao;
+    public AccountServiceImpl(AccountDao accountDao) {
+        this.accountDao = accountDao;
+    }
 
     @Override
     public OpenAccountResponse save(String accountId) {
