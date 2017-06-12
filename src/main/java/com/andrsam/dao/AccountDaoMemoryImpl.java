@@ -15,7 +15,7 @@ public class AccountDaoMemoryImpl<K, V> implements AccountDao<K, V> {
     }
 
     @Override
-    public void save(K accountId, V account) {
-        storage.putIfAbsent(accountId, account);
+    public boolean save(K accountId, V account) {
+        return (storage.putIfAbsent(accountId, account) == null);
     }
 }
