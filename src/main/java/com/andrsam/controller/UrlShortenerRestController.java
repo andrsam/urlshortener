@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UrlShortenerRestController {
+    private final AccountService accountService;
 
     @Autowired
-    AccountService accountService;
+    public UrlShortenerRestController(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @RequestMapping(value = "/")
     public String welcome() {

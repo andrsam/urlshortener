@@ -3,11 +3,11 @@ package com.andrsam.dao;
 
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class AccountDaoMemoryImpl<K, V> implements AccountDao<K, V> {
-    HashMap<K, V> storage = new HashMap<>();
+    private ConcurrentHashMap<K, V> storage = new ConcurrentHashMap<>();
 
     @Override
     public V get(K accountId) {
@@ -16,7 +16,6 @@ public class AccountDaoMemoryImpl<K, V> implements AccountDao<K, V> {
 
     @Override
     public void save(K accountId, V account) {
-        storage.put(accountId, account);
+        storage.putIfAbsent(accountId, account);
     }
-
 }
