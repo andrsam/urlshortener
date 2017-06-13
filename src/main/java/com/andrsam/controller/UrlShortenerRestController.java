@@ -6,7 +6,6 @@ import com.andrsam.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,11 +15,6 @@ public class UrlShortenerRestController {
     @Autowired
     public UrlShortenerRestController(AccountService accountService) {
         this.accountService = accountService;
-    }
-
-    @RequestMapping(value = "/")
-    public String welcome() {
-        return "Hello";
     }
 
     @PostMapping(value = "/account", produces = "application/json;UTF-8")

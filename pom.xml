@@ -50,6 +50,12 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${jetty.plugin.version}</version>
                 <configuration>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>org.eclipse.jetty.annotations.maxWait</name>
+                            <value>120</value>
+                        </systemProperty>
+                    </systemProperties>
                     <scanIntervalSeconds>2</scanIntervalSeconds>
                     <httpConnector>
                         <port>8080</port>
