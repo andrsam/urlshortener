@@ -1,7 +1,9 @@
 package com.andrsam.controller;
 
 import com.andrsam.request.OpenAccountRequest;
+import com.andrsam.request.RegisterUrlRequest;
 import com.andrsam.response.OpenAccountResponse;
+import com.andrsam.response.RegisterUrlResponse;
 import com.andrsam.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,4 +24,11 @@ public class UrlShortenerRestController {
         String accountId = accountRequest.getAccountId();
         return accountService.save(accountId);
     }
+
+    @PostMapping(value = "/register", produces = "application/json;UTF-8")
+    public RegisterUrlResponse register(@RequestBody RegisterUrlRequest registerUrlRequest) {
+        return null;
+    }
+
+
 }
