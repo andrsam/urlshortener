@@ -4,7 +4,7 @@ import com.andrsam.request.OpenAccountRequest;
 import com.andrsam.request.RegisterUrlRequest;
 import com.andrsam.response.OpenAccountResponse;
 import com.andrsam.response.RegisterUrlResponse;
-import com.andrsam.service.AccountService;
+import com.andrsam.service.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

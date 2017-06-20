@@ -1,4 +1,4 @@
-package com.andrsam.service;
+package com.andrsam.service.account;
 
 import com.andrsam.dao.AccountDao;
 import com.andrsam.model.Account;
