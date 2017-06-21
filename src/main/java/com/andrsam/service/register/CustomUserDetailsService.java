@@ -1,4 +1,4 @@
-package com.andrsam.service;
+package com.andrsam.service.register;
 
 
 import com.andrsam.dao.AccountDao;
