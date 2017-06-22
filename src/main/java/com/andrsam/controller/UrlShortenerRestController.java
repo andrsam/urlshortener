@@ -5,6 +5,7 @@ import com.andrsam.request.RegisterUrlRequest;
 import com.andrsam.response.OpenAccountResponse;
 import com.andrsam.response.RegisterUrlResponse;
 import com.andrsam.service.account.AccountService;
+import com.andrsam.service.register.RegisterUrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,21 +14,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UrlShortenerRestController {
     private final AccountService accountService;
+    private final RegisterUrlService registerUrlService;
 
     @Autowired
-    public UrlShortenerRestController(AccountService accountService) {
+    public UrlShortenerRestController(AccountService accountService, RegisterUrlService registerUrlService) {
         this.accountService = accountService;
+        this.registerUrlService = registerUrlService;
     }
 
     @PostMapping(value = "/account", produces = "application/json;UTF-8")
-    public OpenAccountResponse account(@RequestBody OpenAccountRequest accountRequest) {
-        String accountId = accountRequest.getAccountId();
+    public OpenAccountResponse account(@RequestBody OpenAccountRequest request) {
+        String accountId = request.getAccountId();
         return accountService.save(accountId);
     }
 
     @PostMapping(value = "/register", produces = "application/json;UTF-8")
-    public RegisterUrlResponse register(@RequestBody RegisterUrlRequest registerUrlRequest) {
-        return null;
+    public RegisterUrlResponse register(@RequestBody RegisterUrlRequest request) {
+        return registerUrlService.save(request);
     }
 
 

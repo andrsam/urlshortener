@@ -1,7 +1,10 @@
 package com.andrsam.dao;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class UrlDaoMemoryImpl<K, V> implements UrlDao<K, V> {
     private ConcurrentHashMap<K, V> storage = new ConcurrentHashMap<>();
 

@@ -3,6 +3,10 @@ package com.andrsam.response;
 public class RegisterUrlResponse {
     private String shortUrl;
 
+    public RegisterUrlResponse(String shortUrl) {
+        this.shortUrl = shortUrl;
+    }
+
     public String getShortUrl() {
         return shortUrl;
     }
