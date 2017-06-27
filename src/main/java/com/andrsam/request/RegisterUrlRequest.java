@@ -37,4 +37,12 @@ public class RegisterUrlRequest {
         result = 31 * result + redirectType;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "RegisterUrlRequest{" +
+                "url='" + url + '\'' +
+                ", redirectType=" + redirectType +
+                '}';
+    }
 }

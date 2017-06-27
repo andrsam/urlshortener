@@ -5,6 +5,7 @@ import com.andrsam.model.Url;
 import com.andrsam.request.RegisterUrlRequest;
 import com.andrsam.response.RegisterUrlResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 @Service
+@PropertySource("classpath:urlshortener.properties")
 public class RegisterUrlServiceImpl implements RegisterUrlService {
 
     public static final int BASE = 62;
@@ -51,7 +53,9 @@ public class RegisterUrlServiceImpl implements RegisterUrlService {
     }
 
     public String hash2URL(int number) {
-        StringBuilder url = new StringBuilder(environment.getProperty("urlshortener.baseUrl"));
+
+        String baseUrl = environment.getProperty("urlshortener.baseUrl");
+        StringBuilder url = new StringBuilder(baseUrl);
         while (number != 0) {
             url.append(BASE_DIGITS.charAt(number % BASE));
             number = Math.floorDiv(number, BASE);

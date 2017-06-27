@@ -33,17 +33,18 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public OpenAccountResponse save(String accountId) {
-        String description;
         String password = "";
         Account account = new Account(accountId, password);
-        boolean success = accountDao.save(accountId, account);
-        if (success) {
+        boolean isAccountNotRegistered = accountDao.save(accountId, account);
+        String description;
+        if (isAccountNotRegistered) {
             description = "Your account is opened";
             password = generatePassword();
+            account.setPassword(password);
         } else {
             description = "Account already exists";
         }
-        return new OpenAccountResponse(success, description, password);
+        return new OpenAccountResponse(isAccountNotRegistered, description, password);
     }
 
     private String generatePassword() {

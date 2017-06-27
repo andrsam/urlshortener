@@ -58,7 +58,7 @@
                     </systemProperties>
                     <scanIntervalSeconds>2</scanIntervalSeconds>
                     <httpConnector>
-                        <port>8081</port>
+                        <port>8080</port>
                     </httpConnector>
                 </configuration>
             </plugin>
