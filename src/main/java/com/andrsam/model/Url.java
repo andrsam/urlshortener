@@ -5,6 +5,8 @@ import com.andrsam.request.RegisterUrlRequest;
 public class Url {
     RegisterUrlRequest longUrl;
 
+    int redirectType;
+
     int redirectsCount;
 
     public Url(RegisterUrlRequest longUrl) {

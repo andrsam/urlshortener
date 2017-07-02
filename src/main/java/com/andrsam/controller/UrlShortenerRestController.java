@@ -7,9 +7,7 @@ import com.andrsam.response.RegisterUrlResponse;
 import com.andrsam.service.account.AccountService;
 import com.andrsam.service.register.RegisterUrlService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UrlShortenerRestController {
@@ -20,6 +18,12 @@ public class UrlShortenerRestController {
     public UrlShortenerRestController(AccountService accountService, RegisterUrlService registerUrlService) {
         this.accountService = accountService;
         this.registerUrlService = registerUrlService;
+    }
+
+    @RequestMapping(value = "/{urlId}")
+    public String redirectToUrl(@PathVariable("urlId") String urlId) {
+
+        return urlId;
     }
 
     @PostMapping(value = "/account", produces = "application/json;UTF-8")

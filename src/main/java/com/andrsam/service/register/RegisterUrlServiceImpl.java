@@ -62,5 +62,4 @@ public class RegisterUrlServiceImpl implements RegisterUrlService {
         }
         return url.toString();
     }
-
 }
