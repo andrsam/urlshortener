@@ -1,8 +1,7 @@
-package com.andrsam.service.register;
+package com.andrsam.service.url;
 
 import com.andrsam.dao.UrlDao;
-import com.andrsam.model.Url;
-import com.andrsam.request.RegisterUrlRequest;
+import com.andrsam.request.UrlDescription;
 import com.andrsam.response.RegisterUrlResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -12,10 +11,11 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @Service
 @PropertySource("classpath:urlshortener.properties")
-public class RegisterUrlServiceImpl implements RegisterUrlService {
+public class UrlServiceImpl implements UrlService {
 
     public static final int BASE = 62;
     private final String BASE_DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -26,20 +26,30 @@ public class RegisterUrlServiceImpl implements RegisterUrlService {
     private final UrlDao urlDao;
 
     @Autowired
-    public RegisterUrlServiceImpl(UrlDao urlDao) {
+    public UrlServiceImpl(UrlDao urlDao) {
         this.urlDao = urlDao;
     }
 
     @Override
-    public RegisterUrlResponse save(RegisterUrlRequest request) {
-        String shortUrl = getShortURL(request.getUrl());
-        Url url = new Url(request);
-        urlDao.save(shortUrl, url);
-        RegisterUrlResponse response = new RegisterUrlResponse(shortUrl);
+    public RegisterUrlResponse save(UrlDescription description) {
+        String urlId = generateUrlId(description.getUrl());
+        urlDao.save(urlId, description);
+        RegisterUrlResponse response = new RegisterUrlResponse(environment.getProperty("urlshortener.baseUrl") + urlId);
         return response;
     }
 
-    private String getShortURL(String input) {
+    @Override
+    public UrlDescription getUrlDescription(String shortUrl) {
+        return (UrlDescription) urlDao.get(shortUrl);
+    }
+
+    @Override
+    public List<UrlDescription> getAll() {
+        return urlDao.getAll();
+    }
+
+
+    private String generateUrlId(String input) {
         int hashNumber;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -49,17 +59,17 @@ public class RegisterUrlServiceImpl implements RegisterUrlService {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-        return hash2URL(hashNumber);
+        return hash2UrlId(hashNumber);
     }
 
-    public String hash2URL(int number) {
-
-        String baseUrl = environment.getProperty("urlshortener.baseUrl");
-        StringBuilder url = new StringBuilder(baseUrl);
+    private String hash2UrlId(int number) {
+        StringBuilder url = new StringBuilder();
         while (number != 0) {
             url.append(BASE_DIGITS.charAt(number % BASE));
             number = Math.floorDiv(number, BASE);
         }
         return url.toString();
     }
+
+
 }

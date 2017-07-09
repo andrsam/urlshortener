@@ -1,29 +1,34 @@
 package com.andrsam.controller;
 
 import com.andrsam.request.OpenAccountRequest;
-import com.andrsam.request.RegisterUrlRequest;
+import com.andrsam.request.UrlDescription;
 import com.andrsam.response.OpenAccountResponse;
 import com.andrsam.response.RegisterUrlResponse;
 import com.andrsam.service.account.AccountService;
-import com.andrsam.service.register.RegisterUrlService;
+import com.andrsam.service.url.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 public class UrlShortenerRestController {
     private final AccountService accountService;
-    private final RegisterUrlService registerUrlService;
+    private final UrlService urlService;
 
     @Autowired
-    public UrlShortenerRestController(AccountService accountService, RegisterUrlService registerUrlService) {
+    public UrlShortenerRestController(AccountService accountService, UrlService urlService) {
         this.accountService = accountService;
-        this.registerUrlService = registerUrlService;
+        this.urlService = urlService;
     }
 
     @RequestMapping(value = "/{urlId}")
-    public String redirectToUrl(@PathVariable("urlId") String urlId) {
-
-        return urlId;
+    public RedirectView redirectToUrl(@PathVariable("urlId") String urlId) {
+        UrlDescription urlDescription = urlService.getUrlDescription(urlId);
+        urlDescription.setRedirectsCount(urlDescription.getRedirectsCount() + 1);
+        RedirectView redirectView = new RedirectView(urlDescription.getUrl());
+        redirectView.setStatusCode(HttpStatus.valueOf(urlDescription.getRedirectType()));
+        return redirectView;
     }
 
     @PostMapping(value = "/account", produces = "application/json;UTF-8")
@@ -33,9 +38,8 @@ public class UrlShortenerRestController {
     }
 
     @PostMapping(value = "/register", produces = "application/json;UTF-8")
-    public RegisterUrlResponse register(@RequestBody RegisterUrlRequest request) {
-        return registerUrlService.save(request);
+    public RegisterUrlResponse register(@RequestBody UrlDescription request) {
+        return urlService.save(request);
     }
-
 
 }

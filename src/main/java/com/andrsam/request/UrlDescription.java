@@ -1,8 +1,9 @@
 package com.andrsam.request;
 
-public class RegisterUrlRequest {
+public class UrlDescription {
     String url;
     int redirectType;
+    int redirectsCount;
 
     public String getUrl() {
         return url;
@@ -20,14 +21,23 @@ public class RegisterUrlRequest {
         this.redirectType = redirectType;
     }
 
+    public int getRedirectsCount() {
+        return redirectsCount;
+    }
+
+    public void setRedirectsCount(int redirectsCount) {
+        this.redirectsCount = redirectsCount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        RegisterUrlRequest that = (RegisterUrlRequest) o;
+        UrlDescription that = (UrlDescription) o;
 
         if (redirectType != that.redirectType) return false;
+        if (redirectsCount != that.redirectsCount) return false;
         return url.equals(that.url);
     }
 
@@ -35,14 +45,16 @@ public class RegisterUrlRequest {
     public int hashCode() {
         int result = url.hashCode();
         result = 31 * result + redirectType;
+        result = 31 * result + redirectsCount;
         return result;
     }
 
     @Override
     public String toString() {
-        return "RegisterUrlRequest{" +
+        return "UrlDescription{" +
                 "url='" + url + '\'' +
                 ", redirectType=" + redirectType +
+                ", redirectsCount=" + redirectsCount +
                 '}';
     }
 }
