@@ -1,15 +1,15 @@
 package com.andrsam.service.url;
 
-import com.andrsam.request.UrlDescription;
+import com.andrsam.request.LongUrl;
 import com.andrsam.response.RegisterUrlResponse;
 
-import java.util.List;
+import java.util.Map;
 
 public interface UrlService {
 
-    RegisterUrlResponse save(UrlDescription request);
+    RegisterUrlResponse save(LongUrl request);
 
-    UrlDescription getUrlDescription(String shortUrl);
+    LongUrl getLongUrl(String shortUrl);
 
-    List<UrlDescription> getAll();
+    Map<String, Integer> getStatistics();
 }

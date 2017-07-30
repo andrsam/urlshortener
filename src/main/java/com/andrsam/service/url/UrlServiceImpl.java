@@ -1,7 +1,7 @@
 package com.andrsam.service.url;
 
 import com.andrsam.dao.UrlDao;
-import com.andrsam.request.UrlDescription;
+import com.andrsam.request.LongUrl;
 import com.andrsam.response.RegisterUrlResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @PropertySource("classpath:urlshortener.properties")
@@ -31,25 +33,27 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public RegisterUrlResponse save(UrlDescription description) {
-        String urlId = generateUrlId(description.getUrl());
-        urlDao.save(urlId, description);
+    public RegisterUrlResponse save(LongUrl longUrl) {
+        String urlId = generateShortUrl(longUrl.getUrl());
+        urlDao.save(urlId, longUrl);
         RegisterUrlResponse response = new RegisterUrlResponse(environment.getProperty("urlshortener.baseUrl") + urlId);
         return response;
     }
 
     @Override
-    public UrlDescription getUrlDescription(String shortUrl) {
-        return (UrlDescription) urlDao.get(shortUrl);
+    public LongUrl getLongUrl(String shortUrl) {
+        return (LongUrl) urlDao.get(shortUrl);
     }
 
     @Override
-    public List<UrlDescription> getAll() {
-        return urlDao.getAll();
+    public Map<String, Integer> getStatistics() {
+        List<LongUrl> urls = urlDao.getAll();
+        Map<String, Integer> statistics = new HashMap<>();
+        urls.forEach(url -> statistics.put(url.getUrl(), url.getRedirectsCount()));
+        return statistics;
     }
 
-
-    private String generateUrlId(String input) {
+    private String generateShortUrl(String input) {
         int hashNumber;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -59,10 +63,10 @@ public class UrlServiceImpl implements UrlService {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-        return hash2UrlId(hashNumber);
+        return hash2ShortUrl(hashNumber);
     }
 
-    private String hash2UrlId(int number) {
+    private String hash2ShortUrl(int number) {
         StringBuilder url = new StringBuilder();
         while (number != 0) {
             url.append(BASE_DIGITS.charAt(number % BASE));
@@ -70,6 +74,4 @@ public class UrlServiceImpl implements UrlService {
         }
         return url.toString();
     }
-
-
 }

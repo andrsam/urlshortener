@@ -1,6 +1,6 @@
 package com.andrsam.request;
 
-public class UrlDescription {
+public class LongUrl {
     String url;
     int redirectType;
     int redirectsCount;
@@ -34,7 +34,7 @@ public class UrlDescription {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UrlDescription that = (UrlDescription) o;
+        LongUrl that = (LongUrl) o;
 
         if (redirectType != that.redirectType) return false;
         if (redirectsCount != that.redirectsCount) return false;
@@ -51,7 +51,7 @@ public class UrlDescription {
 
     @Override
     public String toString() {
-        return "UrlDescription{" +
+        return "LongUrl{" +
                 "url='" + url + '\'' +
                 ", redirectType=" + redirectType +
                 ", redirectsCount=" + redirectsCount +
