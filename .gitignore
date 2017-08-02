@@ -61,3 +61,10 @@ modules.xml
 *.ipr
 
 # End of https://www.gitignore.io/api/intellij+iml
+/.idea/dictionaries/
+.idea/artifacts/
+.idea/compiler.xml
+.idea/inspectionProfiles/
+.idea/vcs.xml
+src/test/
+target/
