@@ -24,15 +24,6 @@ public class UrlShortenerRestController {
         this.urlService = urlService;
     }
 
-    @RequestMapping(value = "/{shortUrl}")
-    public RedirectView redirectToUrl(@PathVariable("shortUrl") String shortUrl) {
-        LongUrl longUrl = urlService.getLongUrl(shortUrl);
-        longUrl.setRedirectsCount(longUrl.getRedirectsCount() + 1);
-        RedirectView redirectView = new RedirectView(longUrl.getUrl());
-        redirectView.setStatusCode(HttpStatus.valueOf(longUrl.getRedirectType()));
-        return redirectView;
-    }
-
     @PostMapping(value = "/account", produces = "application/json;UTF-8")
     public OpenAccountResponse account(@RequestBody OpenAccountRequest request) {
         String accountId = request.getAccountId();
@@ -42,6 +33,15 @@ public class UrlShortenerRestController {
     @PostMapping(value = "/register", produces = "application/json;UTF-8")
     public RegisterUrlResponse register(@RequestBody LongUrl request) {
         return urlService.save(request);
+    }
+
+    @RequestMapping(value = "/{shortUrl}")
+    public RedirectView redirectToUrl(@PathVariable("shortUrl") String shortUrl) {
+        LongUrl longUrl = urlService.getLongUrl(shortUrl);
+        longUrl.setRedirectsCount(longUrl.getRedirectsCount() + 1);
+        RedirectView redirectView = new RedirectView(longUrl.getUrl());
+        redirectView.setStatusCode(HttpStatus.valueOf(longUrl.getRedirectType()));
+        return redirectView;
     }
 
     @GetMapping(value = "/statistic", produces = "application/json;UTF-8")
