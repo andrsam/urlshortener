@@ -66,5 +66,5 @@ modules.xml
 .idea/compiler.xml
 .idea/inspectionProfiles/
 .idea/vcs.xml
-src/test/
 target/
+.idea/
