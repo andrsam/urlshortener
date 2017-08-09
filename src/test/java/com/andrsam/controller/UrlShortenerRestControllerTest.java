@@ -4,6 +4,7 @@ import com.andrsam.dao.AccountDao;
 import com.andrsam.dao.AccountDaoMemoryImpl;
 import com.andrsam.dao.UrlDao;
 import com.andrsam.dao.UrlDaoMemoryImpl;
+import com.andrsam.request.OpenAccountRequest;
 import com.andrsam.service.account.AccountService;
 import com.andrsam.service.account.AccountServiceImpl;
 import com.andrsam.service.url.UrlService;
@@ -12,23 +13,24 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class UrlShortenerRestControllerTest {
-    private AccountService accountService;
-    private UrlService urlService;
-    private UrlShortenerRestController urlShortenerRestController;
-    private AccountDao accountDao;
-    private UrlDao urlDao;
+    private AccountDao accountDao = new AccountDaoMemoryImpl();
+    private UrlDao urlDao = new UrlDaoMemoryImpl();
+    private AccountService accountService = new AccountServiceImpl(accountDao);
+    private UrlService urlService = new UrlServiceImpl(urlDao);
+    private UrlShortenerRestController urlShortenerRestController = new UrlShortenerRestController(accountService, urlService);
+    private OpenAccountRequest openAccountRequest;
+    private static final String ACCOUNT_ID = "test";
+
 
     @Before
     public void setUp() throws Exception {
-        accountDao = new AccountDaoMemoryImpl();
-        accountService = new AccountServiceImpl(accountDao);
-        urlDao = new UrlDaoMemoryImpl();
-        urlService = new UrlServiceImpl(urlDao);
-        urlShortenerRestController = new UrlShortenerRestController(accountService, urlService);
+        openAccountRequest.setAccountId(ACCOUNT_ID);
+
     }
 
     @Test
     public void account() throws Exception {
+
     }
 
     @Test
