@@ -18,13 +18,14 @@ public class UrlShortenerRestControllerTest {
     private AccountService accountService = new AccountServiceImpl(accountDao);
     private UrlService urlService = new UrlServiceImpl(urlDao);
     private UrlShortenerRestController urlShortenerRestController = new UrlShortenerRestController(accountService, urlService);
-    private OpenAccountRequest openAccountRequest;
+    private OpenAccountRequest openAccountRequest = new OpenAccountRequest();
     private static final String ACCOUNT_ID = "test";
 
 
     @Before
     public void setUp() throws Exception {
         openAccountRequest.setAccountId(ACCOUNT_ID);
+
 
     }
 
