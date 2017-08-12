@@ -31,8 +31,8 @@ public class UrlShortenerRestController {
     }
 
     @PostMapping(value = "/register", produces = "application/json;UTF-8")
-    public RegisterUrlResponse register(@RequestBody LongUrl request) {
-        return urlService.save(request);
+    public RegisterUrlResponse register(@RequestBody LongUrl longUrl) {
+        return urlService.save(longUrl);
     }
 
     @RequestMapping(value = "/{shortUrl}")

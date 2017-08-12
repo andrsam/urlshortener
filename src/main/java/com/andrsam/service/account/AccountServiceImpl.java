@@ -24,6 +24,9 @@ public class AccountServiceImpl implements AccountService {
             // at least one digit character
             new CharacterRule(EnglishCharacterData.Digit, 1));
 
+    public static final String YOUR_ACCOUNT_IS_OPENED = "Your account is opened";
+    public static final String ACCOUNT_ALREADY_EXISTS = "Account already exists";
+
     final AccountDao accountDao;
 
     @Autowired
@@ -38,11 +41,11 @@ public class AccountServiceImpl implements AccountService {
         boolean isAccountNotRegistered = accountDao.save(accountId, account);
         String description;
         if (isAccountNotRegistered) {
-            description = "Your account is opened";
+            description = YOUR_ACCOUNT_IS_OPENED;
             password = generatePassword();
             account.setPassword(password);
         } else {
-            description = "Account already exists";
+            description = ACCOUNT_ALREADY_EXISTS;
         }
         return new OpenAccountResponse(isAccountNotRegistered, description, password);
     }
