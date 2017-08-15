@@ -44,10 +44,12 @@ public class UrlShortenerRestControllerTest {
 
     @Test
     public void testAccountAlreadyOpened() {
+        urlShortenerRestController.account(openAccountRequest);
         OpenAccountResponse openAccountWrongResponse = urlShortenerRestController.account(openAccountRequest);
         Assert.assertFalse(openAccountWrongResponse.isSuccess());
         Assert.assertEquals(openAccountWrongResponse.getDescription(), "Account already exists");
-        Assert.assertNull(openAccountWrongResponse.getPassword());
+        //Assert.assertNull(openAccountWrongResponse.getPassword());
+        Assert.assertEquals(openAccountWrongResponse.getPassword(), "");
     }
 
     @Test
