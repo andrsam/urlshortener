@@ -23,7 +23,7 @@ public class AccountDaoMemoryImplTest {
     }
 
     @Test
-    public void testSavedAlready() throws Exception {
+    public void testAlreadySaved() throws Exception {
         accountDao.save(ACCOUNT_ID, account);
         boolean isAccountNotRegistered = accountDao.save(ACCOUNT_ID, account);
         Assert.assertFalse(isAccountNotRegistered);

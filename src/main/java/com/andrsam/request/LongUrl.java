@@ -5,6 +5,11 @@ public class LongUrl {
     int redirectType;
     int redirectsCount;
 
+    public LongUrl(String url, int redirectType) {
+        this.url = url;
+        this.redirectType = redirectType;
+    }
+
     public String getUrl() {
         return url;
     }
