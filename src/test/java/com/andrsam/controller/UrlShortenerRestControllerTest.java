@@ -18,9 +18,11 @@ import org.junit.Test;
 
 public class UrlShortenerRestControllerTest {
     private AccountDao accountDao = new AccountDaoMemoryImpl();
-    private UrlDao urlDao = new UrlDaoMemoryImpl();
     private AccountService accountService = new AccountServiceImpl(accountDao);
+
+    private UrlDao urlDao = new UrlDaoMemoryImpl();
     private UrlService urlService = new UrlServiceImpl(urlDao);
+
     private UrlShortenerRestController urlShortenerRestController = new UrlShortenerRestController(accountService, urlService);
     private OpenAccountRequest openAccountRequest = new OpenAccountRequest();
     private static final String ACCOUNT_ID = "test";
@@ -53,9 +55,7 @@ public class UrlShortenerRestControllerTest {
 
     @Test
     public void register() throws Exception {
-        LongUrl longUrl = new LongUrl();
-        longUrl.setUrl(URL);
-        longUrl.setRedirectType(REDIRECT_TYPE);
+        LongUrl longUrl = new LongUrl(URL, REDIRECT_TYPE);
         RegisterUrlResponse response = urlShortenerRestController.register(longUrl);
         System.out.println(response.getShortUrl());
         Assert.assertNotNull(response.getShortUrl());
