@@ -14,11 +14,25 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * an authentication service
+ */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
+
+    /**
+     * an account dao
+     */
     @Autowired
     private AccountDao accountDao;
 
+    /**
+     * looks for an user account
+     *
+     * @param accountId a user account id
+     * @return the user details
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String accountId) throws UsernameNotFoundException {
         Account account = (Account) accountDao.get(accountId);

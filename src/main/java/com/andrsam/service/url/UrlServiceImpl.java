@@ -15,10 +15,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * a service implementation for storing, generating urls and retrieving the statistics
+ */
 @Service
 @PropertySource("classpath:urlshortener.properties")
 public class UrlServiceImpl implements UrlService {
-
+    /**
+     * th
+     */
     public static final int BASE = 62;
     private final String BASE_DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 

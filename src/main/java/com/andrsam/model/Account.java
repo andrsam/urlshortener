@@ -1,5 +1,8 @@
 package com.andrsam.model;
 
+/**
+ *
+ */
 public class Account {
     String id;
 

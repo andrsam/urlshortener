@@ -5,7 +5,7 @@ import com.andrsam.dao.AccountDaoMemoryImpl;
 import com.andrsam.dao.UrlDao;
 import com.andrsam.dao.UrlDaoMemoryImpl;
 import com.andrsam.request.LongUrl;
-import com.andrsam.request.OpenAccountRequest;
+import com.andrsam.request.OpenAccount;
 import com.andrsam.response.OpenAccountResponse;
 import com.andrsam.response.RegisterUrlResponse;
 import com.andrsam.service.account.AccountService;
@@ -24,7 +24,7 @@ public class UrlShortenerRestControllerTest {
     private UrlService urlService = new UrlServiceImpl(urlDao);
 
     private UrlShortenerRestController urlShortenerRestController = new UrlShortenerRestController(accountService, urlService);
-    private OpenAccountRequest openAccountRequest = new OpenAccountRequest();
+    private OpenAccount openAccount = new OpenAccount();
     private static final String ACCOUNT_ID = "test";
     private static final String URL = "http://stackoverflow.com/questions/1567929/website-safe-data-access-architecture-question?rq=1";
     private static final int REDIRECT_TYPE = 301;
@@ -33,12 +33,12 @@ public class UrlShortenerRestControllerTest {
     @Before
 
     public void setUp() throws Exception {
-        openAccountRequest.setAccountId(ACCOUNT_ID);
+        openAccount.setAccountId(ACCOUNT_ID);
     }
 
     @Test
     public void account() throws Exception {
-        OpenAccountResponse openAccountResponse = urlShortenerRestController.account(openAccountRequest);
+        OpenAccountResponse openAccountResponse = urlShortenerRestController.account(openAccount);
         Assert.assertTrue(openAccountResponse.isSuccess());
         Assert.assertEquals(openAccountResponse.getDescription(), "Your account is opened");
         Assert.assertNotNull(openAccountResponse.getPassword());
@@ -46,8 +46,8 @@ public class UrlShortenerRestControllerTest {
 
     @Test
     public void testAccountAlreadyOpened() {
-        urlShortenerRestController.account(openAccountRequest);
-        OpenAccountResponse openAccountWrongResponse = urlShortenerRestController.account(openAccountRequest);
+        urlShortenerRestController.account(openAccount);
+        OpenAccountResponse openAccountWrongResponse = urlShortenerRestController.account(openAccount);
         Assert.assertFalse(openAccountWrongResponse.isSuccess());
         Assert.assertEquals(openAccountWrongResponse.getDescription(), "Account already exists");
         Assert.assertEquals(openAccountWrongResponse.getPassword(), "");

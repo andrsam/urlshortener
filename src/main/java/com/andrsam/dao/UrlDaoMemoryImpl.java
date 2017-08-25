@@ -6,8 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * A memory implementation of the UrlDao
+ *
+ * @param <K>
+ * @param <V>
+ */
 @Repository
 public class UrlDaoMemoryImpl<K, V> implements UrlDao<K, V> {
+    /**
+     * the urls storage
+     */
     private ConcurrentHashMap<K, V> storage = new ConcurrentHashMap<>();
 
     @Override

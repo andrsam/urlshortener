@@ -2,8 +2,13 @@ package com.andrsam.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class OpenAccountRequest {
-
+/**
+ * request for opening account
+ */
+public class OpenAccount {
+    /**
+     * An user login
+     */
     @JsonProperty("AccountId")
     String accountId;
 

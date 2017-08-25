@@ -1,6 +1,12 @@
 package com.andrsam.response;
 
+/**
+ * a response that returns in case of register url
+ */
 public class RegisterUrlResponse {
+    /**
+     *
+     */
     private String shortUrl;
 
     public RegisterUrlResponse(String shortUrl) {

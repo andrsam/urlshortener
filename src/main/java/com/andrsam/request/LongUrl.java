@@ -1,8 +1,22 @@
 package com.andrsam.request;
 
+/**
+ * contains information about the URL that needs shortening
+ */
 public class LongUrl {
+    /**
+     * the URL that needs shortening
+     */
     String url;
+
+    /**
+     * redirect type:  301 | 302 (not mandatory, default 302)
+     */
     int redirectType;
+
+    /**
+     * the number of the URL redirects
+     */
     int redirectsCount;
 
     public LongUrl(String url, int redirectType) {
@@ -14,16 +28,8 @@ public class LongUrl {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public int getRedirectType() {
         return redirectType;
-    }
-
-    public void setRedirectType(int redirectType) {
-        this.redirectType = redirectType;
     }
 
     public int getRedirectsCount() {

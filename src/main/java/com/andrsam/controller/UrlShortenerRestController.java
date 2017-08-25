@@ -1,7 +1,7 @@
 package com.andrsam.controller;
 
 import com.andrsam.request.LongUrl;
-import com.andrsam.request.OpenAccountRequest;
+import com.andrsam.request.OpenAccount;
 import com.andrsam.response.OpenAccountResponse;
 import com.andrsam.response.RegisterUrlResponse;
 import com.andrsam.service.account.AccountService;
@@ -24,17 +24,35 @@ public class UrlShortenerRestController {
         this.urlService = urlService;
     }
 
+    /**
+     * Opens an user account
+     *
+     * @param request JSON object for opening account
+     * @return OpenAccountResponse
+     */
     @PostMapping(value = "/account", produces = "application/json;UTF-8")
-    public OpenAccountResponse account(@RequestBody OpenAccountRequest request) {
+    public OpenAccountResponse account(@RequestBody OpenAccount request) {
         String accountId = request.getAccountId();
         return accountService.save(accountId);
     }
 
+    /**
+     * Registers url
+     *
+     * @param longUrl - contains long url and redirect type
+     * @return response with shortened url
+     */
     @PostMapping(value = "/register", produces = "application/json;UTF-8")
     public RegisterUrlResponse register(@RequestBody LongUrl longUrl) {
         return urlService.save(longUrl);
     }
 
+    /**
+     * Redirects the client on the configured address with the configured http status
+     *
+     * @param shortUrl a shortened url to
+     * @return RedirectView that redirects to the configured address with the configured http status
+     */
     @RequestMapping(value = "/{shortUrl}")
     public RedirectView redirectToUrl(@PathVariable("shortUrl") String shortUrl) {
         LongUrl longUrl = urlService.getLongUrl(shortUrl);
@@ -44,6 +62,11 @@ public class UrlShortenerRestController {
         return redirectView;
     }
 
+    /**
+     * Retrieves statistica
+     *
+     * @return map with long url and redirects count
+     */
     @GetMapping(value = "/statistic", produces = "application/json;UTF-8")
     @ResponseBody
     public Map<String, Integer> retrieveStatistics() {

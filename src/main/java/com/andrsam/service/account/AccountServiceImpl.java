@@ -12,8 +12,14 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * a service for saving the accounts
+ */
 @Service
 public class AccountServiceImpl implements AccountService {
+    /**
+     * a list of password generation rules
+     */
     public static final List<CharacterRule> RULES = Arrays.asList(
             // at least one upper-case character
             new CharacterRule(EnglishCharacterData.UpperCase, 1),
@@ -24,9 +30,19 @@ public class AccountServiceImpl implements AccountService {
             // at least one digit character
             new CharacterRule(EnglishCharacterData.Digit, 1));
 
+    /**
+     * success registration message
+     */
     public static final String YOUR_ACCOUNT_IS_OPENED = "Your account is opened";
-    public static final String ACCOUNT_ALREADY_EXISTS = "Account already exists";
 
+    /**
+     * error registration message
+     */
+    public static final String ACCOUNT_ALREADY_EXISTS = "Account with that ID already exists";
+
+    /**
+     * an account dao
+     */
     final AccountDao accountDao;
 
     @Autowired
@@ -50,6 +66,11 @@ public class AccountServiceImpl implements AccountService {
         return new OpenAccountResponse(isAccountNotRegistered, description, password);
     }
 
+    /**
+     * generates a password
+     *
+     * @return the password
+     */
     private String generatePassword() {
         PasswordGenerator generator = new PasswordGenerator();
         String password = generator.generatePassword(8, RULES);
