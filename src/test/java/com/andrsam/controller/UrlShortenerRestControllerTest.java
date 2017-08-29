@@ -16,6 +16,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * a test for the controller
+ */
 public class UrlShortenerRestControllerTest {
     private AccountDao accountDao = new AccountDaoMemoryImpl();
     private AccountService accountService = new AccountServiceImpl(accountDao);
@@ -25,13 +28,12 @@ public class UrlShortenerRestControllerTest {
 
     private UrlShortenerRestController urlShortenerRestController = new UrlShortenerRestController(accountService, urlService);
     private OpenAccount openAccount = new OpenAccount();
+
     private static final String ACCOUNT_ID = "test";
     private static final String URL = "http://stackoverflow.com/questions/1567929/website-safe-data-access-architecture-question?rq=1";
     private static final int REDIRECT_TYPE = 301;
 
-
     @Before
-
     public void setUp() throws Exception {
         openAccount.setAccountId(ACCOUNT_ID);
     }

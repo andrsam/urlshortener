@@ -6,6 +6,9 @@ import com.andrsam.response.OpenAccountResponse;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * a test for account service
+ */
 public class AccountServiceImplTest {
     private static final String ACCOUNT_ID = "test";
 
