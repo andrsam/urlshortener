@@ -13,6 +13,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Map;
 
+/**
+ * a rest controller
+ */
 @RestController
 public class UrlShortenerRestController {
     private final AccountService accountService;
@@ -37,7 +40,7 @@ public class UrlShortenerRestController {
     }
 
     /**
-     * Registers url
+     * Registers a url
      *
      * @param longUrl - contains long url and redirect type
      * @return response with shortened url
@@ -48,7 +51,7 @@ public class UrlShortenerRestController {
     }
 
     /**
-     * Redirects the client on the configured address with the configured http status
+     * Redirects the client to the configured address with the configured http status
      *
      * @param shortUrl a shortened url to
      * @return RedirectView that redirects to the configured address with the configured http status
@@ -63,7 +66,7 @@ public class UrlShortenerRestController {
     }
 
     /**
-     * Retrieves statistica
+     * Retrieves a statistics
      *
      * @return map with long url and redirects count
      */

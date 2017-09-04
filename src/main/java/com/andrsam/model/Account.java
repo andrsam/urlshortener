@@ -1,11 +1,17 @@
 package com.andrsam.model;
 
 /**
- *
+ * user acoount
  */
 public class Account {
+    /**
+     * account id
+     */
     String id;
 
+    /**
+     * user password
+     */
     String password;
 
     public Account(String id, String password) {

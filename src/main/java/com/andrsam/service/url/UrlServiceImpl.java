@@ -71,6 +71,12 @@ public class UrlServiceImpl implements UrlService {
         return hash2ShortUrl(hashNumber);
     }
 
+    /**
+     * converts a hash number into a Base62 encoded string
+     *
+     * @param number
+     * @return
+     */
     private String hash2ShortUrl(int number) {
         StringBuilder url = new StringBuilder();
         while (number != 0) {

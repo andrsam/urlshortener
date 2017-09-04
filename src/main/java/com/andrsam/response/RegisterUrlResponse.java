@@ -5,7 +5,7 @@ package com.andrsam.response;
  */
 public class RegisterUrlResponse {
     /**
-     *
+     * a shortened url
      */
     private String shortUrl;
 
