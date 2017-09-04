@@ -58,6 +58,12 @@ public class UrlServiceImpl implements UrlService {
         return statistics;
     }
 
+    /**
+     * generates a short url
+     *
+     * @param input
+     * @return
+     */
     private String generateShortUrl(String input) {
         int hashNumber;
         try {
