@@ -10,7 +10,7 @@ public class OpenAccount {
      * An user login
      */
     @JsonProperty("AccountId")
-    String accountId;
+    private String accountId;
 
     public String getAccountId() {
         return accountId;

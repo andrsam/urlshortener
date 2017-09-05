@@ -7,20 +7,20 @@ public class OpenAccountResponse {
     /**
      * true, if account successfully registered
      */
-    boolean success;
+    private boolean success;
 
     /**
      * description of status: Your account is opened,
      * if registration success else, Account with that ID already exists
      */
-    String description;
+    private String description;
 
     /**
      * The user password
      * Returns only if the account was successfully created.
      * Automatically generated password length of 8 alphanumeric characters
      */
-    String password;
+    private String password;
 
     public OpenAccountResponse(boolean success, String description, String password) {
         this.success = success;

@@ -7,12 +7,12 @@ public class Account {
     /**
      * account id
      */
-    String id;
+    private String id;
 
     /**
      * user password
      */
-    String password;
+    private String password;
 
     public Account(String id, String password) {
         this.id = id;

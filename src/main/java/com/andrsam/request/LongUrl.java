@@ -7,17 +7,17 @@ public class LongUrl {
     /**
      * the URL that needs shortening
      */
-    String url;
+    private String url;
 
     /**
      * redirect type:  301 | 302 (not mandatory, default 302)
      */
-    int redirectType;
+    private int redirectType;
 
     /**
      * the number of the URL redirects
      */
-    int redirectsCount;
+    private int redirectsCount;
 
     public LongUrl(String url, int redirectType) {
         this.url = url;

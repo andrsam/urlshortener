@@ -43,7 +43,7 @@ public class AccountServiceImpl implements AccountService {
     /**
      * an account dao
      */
-    final AccountDao accountDao;
+    private final AccountDao accountDao;
 
     @Autowired
     public AccountServiceImpl(AccountDao accountDao) {
