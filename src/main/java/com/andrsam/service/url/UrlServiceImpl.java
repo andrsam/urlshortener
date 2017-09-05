@@ -4,7 +4,7 @@ import com.andrsam.dao.UrlDao;
 import com.andrsam.request.LongUrl;
 import com.andrsam.response.RegisterUrlResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +19,16 @@ import java.util.Map;
  * a service implementation for storing, generating urls and retrieving the statistics
  */
 @Service
-@PropertySource("classpath:urlshortener.properties")
+//@PropertySource("classpath:urlshortener.properties")
 public class UrlServiceImpl implements UrlService {
     /**
      * th
      */
     public static final int BASE = 62;
     private final String BASE_DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+    @Value("${urlshortener.baseUrl}")
+    String baseUrl;
 
     @Autowired
     private Environment environment;
@@ -41,7 +44,7 @@ public class UrlServiceImpl implements UrlService {
     public RegisterUrlResponse save(LongUrl longUrl) {
         String urlId = generateShortUrl(longUrl.getUrl());
         urlDao.save(urlId, longUrl);
-        RegisterUrlResponse response = new RegisterUrlResponse(environment.getProperty("urlshortener.baseUrl") + urlId);
+        RegisterUrlResponse response = new RegisterUrlResponse(baseUrl + urlId);
         return response;
     }
 

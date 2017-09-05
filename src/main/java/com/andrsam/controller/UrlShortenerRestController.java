@@ -22,7 +22,7 @@ public class UrlShortenerRestController {
     private final UrlService urlService;
 
     @Autowired
-    public UrlShortenerRestController(AccountService accountService, UrlService urlService) {
+    public UrlShortenerRestController(final AccountService accountService, final UrlService urlService) {
         this.accountService = accountService;
         this.urlService = urlService;
     }
