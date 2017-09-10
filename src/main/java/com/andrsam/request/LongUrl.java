@@ -1,5 +1,7 @@
 package com.andrsam.request;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * contains information about the URL that needs shortening
  */
@@ -17,7 +19,10 @@ public class LongUrl {
     /**
      * the number of the URL redirects
      */
-    private int redirectsCount;
+    private AtomicInteger redirectsCount = new AtomicInteger();
+
+    public LongUrl() {
+    }
 
     public LongUrl(String url, int redirectType) {
         this.url = url;
@@ -32,32 +37,12 @@ public class LongUrl {
         return redirectType;
     }
 
-    public int getRedirectsCount() {
+    public AtomicInteger getRedirectsCount() {
         return redirectsCount;
     }
 
     public void setRedirectsCount(int redirectsCount) {
-        this.redirectsCount = redirectsCount;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        LongUrl that = (LongUrl) o;
-
-        if (redirectType != that.redirectType) return false;
-        if (redirectsCount != that.redirectsCount) return false;
-        return url.equals(that.url);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = url.hashCode();
-        result = 31 * result + redirectType;
-        result = 31 * result + redirectsCount;
-        return result;
+        this.redirectsCount.set(redirectsCount);
     }
 
     @Override

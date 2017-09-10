@@ -59,7 +59,7 @@ public class UrlShortenerRestController {
     @RequestMapping(value = "/{shortUrl}")
     public RedirectView redirectToUrl(@PathVariable("shortUrl") String shortUrl) {
         LongUrl longUrl = urlService.getLongUrl(shortUrl);
-        longUrl.setRedirectsCount(longUrl.getRedirectsCount() + 1);
+        longUrl.setRedirectsCount(longUrl.getRedirectsCount().incrementAndGet());
         RedirectView redirectView = new RedirectView(longUrl.getUrl());
         redirectView.setStatusCode(HttpStatus.valueOf(longUrl.getRedirectType()));
         return redirectView;

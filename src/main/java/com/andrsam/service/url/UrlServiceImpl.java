@@ -5,7 +5,7 @@ import com.andrsam.request.LongUrl;
 import com.andrsam.response.RegisterUrlResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -19,25 +19,20 @@ import java.util.Map;
  * a service implementation for storing, generating urls and retrieving the statistics
  */
 @Service
-//@PropertySource("classpath:urlshortener.properties")
+@PropertySource("classpath:urlshortener.properties")
 public class UrlServiceImpl implements UrlService {
-    /**
-     * th
-     */
+
     public static final int BASE = 62;
     private final String BASE_DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-    @Value("${urlshortener.baseUrl}")
     String baseUrl;
-
-    @Autowired
-    private Environment environment;
 
     private final UrlDao urlDao;
 
     @Autowired
-    public UrlServiceImpl(UrlDao urlDao) {
+    public UrlServiceImpl(UrlDao urlDao, @Value("${urlshortener.baseUrl}") String baseUrl) {
         this.urlDao = urlDao;
+        this.baseUrl = baseUrl;
     }
 
     @Override
@@ -57,7 +52,7 @@ public class UrlServiceImpl implements UrlService {
     public Map<String, Integer> getStatistics() {
         List<LongUrl> urls = urlDao.getAll();
         Map<String, Integer> statistics = new HashMap<>();
-        urls.forEach(url -> statistics.put(url.getUrl(), url.getRedirectsCount()));
+        urls.forEach(url -> statistics.put(url.getUrl(), url.getRedirectsCount().intValue()));
         return statistics;
     }
 

@@ -15,8 +15,9 @@ import com.andrsam.service.url.UrlServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Map;
+
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
@@ -27,12 +28,13 @@ public class UrlShortenerRestControllerTest {
     private static final String ACCOUNT_ID = "test";
     private static final String URL = "http://stackoverflow.com/questions/1567929/website-safe-data-access-architecture-question?rq=1";
     private static final int REDIRECT_TYPE = 301;
+    public static final String SHORT_URL = "http://lvh.me/bvZSU";
 
     private AccountDao accountDao = new AccountDaoMemoryImpl();
     private AccountService accountService = new AccountServiceImpl(accountDao);
 
     private UrlDao urlDao = new UrlDaoMemoryImpl();
-    private UrlService urlService = new UrlServiceImpl(urlDao);
+    private UrlService urlService = new UrlServiceImpl(urlDao, "http://lvh.me/");
 
     private UrlShortenerRestController urlShortenerRestController = new UrlShortenerRestController(accountService, urlService);
     private OpenAccount openAccount = new OpenAccount();
@@ -48,7 +50,7 @@ public class UrlShortenerRestControllerTest {
         OpenAccountResponse openAccountResponse = urlShortenerRestController.account(openAccount);
         assertThat(openAccountResponse.isSuccess(), is(true));
         assertThat(openAccountResponse.getDescription(), is("Your account is opened"));
-        assertThat(openAccountResponse.getPassword(), not(null));
+        assertNotNull(openAccountResponse.getPassword());
     }
 
     @Test
@@ -65,13 +67,20 @@ public class UrlShortenerRestControllerTest {
     public void register() throws Exception {
         LongUrl longUrl = new LongUrl(URL, REDIRECT_TYPE);
         RegisterUrlResponse response = urlShortenerRestController.register(longUrl);
-        assertNotNull(response.getShortUrl());
-        System.out.println(response.getShortUrl());
+        assertThat(response.getShortUrl(), is(SHORT_URL));
     }
 
     @Test
     public void retrieveStatistics() throws Exception {
-        //urlShortenerRestController.redirectToUrl();
+        openAccount.setAccountId(ACCOUNT_ID);
+        urlShortenerRestController.account(openAccount);
+
+        LongUrl longUrl = new LongUrl(URL, REDIRECT_TYPE);
+        RegisterUrlResponse response = urlShortenerRestController.register(longUrl);
+
+        urlShortenerRestController.redirectToUrl(response.getShortUrl());
+        Map<String, Integer> statistics = urlShortenerRestController.retrieveStatistics();
+        statistics.forEach((k, v) -> System.out.println("Url: " + k + " count: " + v));
     }
 
 }
