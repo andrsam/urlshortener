@@ -12,7 +12,6 @@ import com.andrsam.service.account.AccountService;
 import com.andrsam.service.account.AccountServiceImpl;
 import com.andrsam.service.url.UrlService;
 import com.andrsam.service.url.UrlServiceImpl;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Map;
@@ -29,20 +28,16 @@ public class UrlShortenerRestControllerTest {
     private static final String URL = "http://stackoverflow.com/questions/1567929/website-safe-data-access-architecture-question?rq=1";
     private static final int REDIRECT_TYPE = 301;
     public static final String SHORT_URL = "http://lvh.me/bvZSU";
+    public static final String BASE_URL = "http://lvh.me/";
 
     private AccountDao accountDao = new AccountDaoMemoryImpl();
     private AccountService accountService = new AccountServiceImpl(accountDao);
 
     private UrlDao urlDao = new UrlDaoMemoryImpl();
-    private UrlService urlService = new UrlServiceImpl(urlDao, "http://lvh.me/");
+    private UrlService urlService = new UrlServiceImpl(urlDao, BASE_URL);
 
     private UrlShortenerRestController urlShortenerRestController = new UrlShortenerRestController(accountService, urlService);
     private OpenAccount openAccount = new OpenAccount();
-
-    @Before
-    public void setUp() throws Exception {
-        openAccount.setAccountId(ACCOUNT_ID);
-    }
 
     @Test
     public void account() throws Exception {
@@ -72,15 +67,11 @@ public class UrlShortenerRestControllerTest {
 
     @Test
     public void retrieveStatistics() throws Exception {
-        openAccount.setAccountId(ACCOUNT_ID);
-        urlShortenerRestController.account(openAccount);
-
         LongUrl longUrl = new LongUrl(URL, REDIRECT_TYPE);
         RegisterUrlResponse response = urlShortenerRestController.register(longUrl);
-
-        urlShortenerRestController.redirectToUrl(response.getShortUrl());
+        urlShortenerRestController.redirectToUrl(response.getShortUrl().replace(BASE_URL, ""));
         Map<String, Integer> statistics = urlShortenerRestController.retrieveStatistics();
-        statistics.forEach((k, v) -> System.out.println("Url: " + k + " count: " + v));
+        assertThat(statistics.get(URL), is(1));
     }
 
 }
