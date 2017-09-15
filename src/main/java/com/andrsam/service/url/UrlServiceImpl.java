@@ -11,9 +11,10 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static java.util.stream.Collectors.toMap;
 
 /**
  * a service implementation for storing, generating urls and retrieving the statistics
@@ -51,8 +52,7 @@ public class UrlServiceImpl implements UrlService {
     @Override
     public Map<String, Integer> getStatistics() {
         List<LongUrl> urls = urlDao.getAll();
-        Map<String, Integer> statistics = new HashMap<>();
-        urls.forEach(url -> statistics.put(url.getUrl(), url.getRedirectsCount().intValue()));
+        Map<String, Integer> statistics = urls.stream().collect(toMap(LongUrl::getUrl, url -> url.getRedirectsCount().intValue()));
         return statistics;
     }
 
