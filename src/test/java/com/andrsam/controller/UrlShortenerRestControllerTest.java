@@ -27,8 +27,8 @@ public class UrlShortenerRestControllerTest {
     private static final String ACCOUNT_ID = "test";
     private static final String URL = "http://stackoverflow.com/questions/1567929/website-safe-data-access-architecture-question?rq=1";
     private static final int REDIRECT_TYPE = 301;
-    public static final String SHORT_URL = "http://lvh.me/bvZSU";
     public static final String BASE_URL = "http://lvh.me/";
+    public static final String URL_ID = "bvZSU";
 
     private AccountDao accountDao = new AccountDaoMemoryImpl();
     private AccountService accountService = new AccountServiceImpl(accountDao);
@@ -62,7 +62,7 @@ public class UrlShortenerRestControllerTest {
     public void register() throws Exception {
         LongUrl longUrl = new LongUrl(URL, REDIRECT_TYPE);
         RegisterUrlResponse response = urlShortenerRestController.register(longUrl);
-        assertThat(response.getShortUrl(), is(SHORT_URL));
+        assertThat(response.getShortUrl(), is(BASE_URL + URL_ID));
     }
 
     @Test
