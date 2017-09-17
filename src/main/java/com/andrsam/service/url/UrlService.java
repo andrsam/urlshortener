@@ -30,5 +30,5 @@ public interface UrlService {
      *
      * @return a map with the url id and the redurects count
      */
-    Map<String, Integer> getStatistics();
+    Map<String, Integer> generateStatistics();
 }

@@ -73,7 +73,7 @@ public class UrlShortenerRestController {
     @GetMapping(value = "/statistic", produces = "application/json;UTF-8")
     @ResponseBody
     public Map<String, Integer> retrieveStatistics() {
-        Map<String, Integer> response = urlService.getStatistics();
+        Map<String, Integer> response = urlService.generateStatistics();
         return response;
     }
 }

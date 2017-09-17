@@ -50,7 +50,7 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public Map<String, Integer> getStatistics() {
+    public Map<String, Integer> generateStatistics() {
         List<LongUrl> urls = urlDao.getAll();
         Map<String, Integer> statistics = urls.stream().collect(toMap(LongUrl::getUrl, url -> url.getRedirectsCount().intValue()));
         return statistics;
