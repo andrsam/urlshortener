@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.security.Principal;
 import java.util.Map;
 
 /**
@@ -37,6 +38,18 @@ public class UrlShortenerRestController {
     public OpenAccountResponse account(@RequestBody OpenAccount request) {
         String accountId = request.getAccountId();
         return accountService.save(accountId);
+    }
+
+    /**
+     * Registers a url with principal
+     *
+     * @param longUrl - contains long url and redirect type
+     * @return response with shortened url
+     */
+    @PostMapping(value = "/register", produces = "application/json;UTF-8")
+    public RegisterUrlResponse registerByAccount(@RequestBody LongUrl longUrl, Principal principal) {
+
+        return urlService.save(longUrl);
     }
 
     /**
