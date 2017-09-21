@@ -1,5 +1,7 @@
 package com.andrsam.request;
 
+import com.andrsam.model.Account;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -20,6 +22,8 @@ public class LongUrl {
      * the number of the URL redirects
      */
     private AtomicInteger redirectsCount = new AtomicInteger();
+
+    private Account account;
 
     public LongUrl() {
     }
@@ -43,6 +47,14 @@ public class LongUrl {
 
     public void setRedirectsCount(int redirectsCount) {
         this.redirectsCount.set(redirectsCount);
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override
