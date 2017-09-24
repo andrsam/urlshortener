@@ -34,7 +34,7 @@ public class UrlShortenerRestControllerTest {
     private AccountService accountService = new AccountServiceImpl(accountDao);
 
     private UrlDao urlDao = new UrlDaoMemoryImpl();
-    private UrlService urlService = new UrlServiceImpl(urlDao, BASE_URL);
+    private UrlService urlService = new UrlServiceImpl(urlDao, accountDao, BASE_URL);
 
     private UrlShortenerRestController urlShortenerRestController = new UrlShortenerRestController(accountService, urlService);
     private OpenAccount openAccount = new OpenAccount();

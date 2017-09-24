@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -62,7 +62,7 @@ public class UrlServiceImpl implements UrlService {
         return statistics;
     }
 
-   /* @Override
+    @Override
     public Map<String, Map<String, Integer>> generateStatByAccounts() {
         List<Account> accounts = accountDao.getAll();
         List<LongUrl> urls = urlDao.getAll();
@@ -77,10 +77,10 @@ public class UrlServiceImpl implements UrlService {
             }
             result.put(id, statByUser);
         }
-        return null;
-    }*/
+        return result;
+    }
 
-    @Override
+/*    @Override
     public Map<String, Map<String, Integer>> generateStatByAccounts() {
         List<Account> accounts = accountDao.getAll();
         List<LongUrl> urls = urlDao.getAll();
@@ -90,7 +90,7 @@ public class UrlServiceImpl implements UrlService {
 
     private Map<String, Integer> getStatisticsByAccount(List<LongUrl> urls, Account searchedAccount) {
         return urls.stream().filter(account -> account.equals(searchedAccount)).collect(toMap(LongUrl::getUrl, url -> url.getRedirectsCount().intValue()));
-    }
+    }*/
 
     /**
      * generates a short url
