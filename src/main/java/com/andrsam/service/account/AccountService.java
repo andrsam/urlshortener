@@ -1,11 +1,21 @@
 package com.andrsam.service.account;
 
+import com.andrsam.model.Account;
 import com.andrsam.response.OpenAccountResponse;
 
 /**
  * used for saving accounts
  */
 public interface AccountService {
+
+    /**
+     * Looks up an account by account id
+     *
+     * @param accountId
+     * @return
+     */
+    Account get(String accountId);
+
     /**
      * creates and saves an account object into the storage
      *

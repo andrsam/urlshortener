@@ -1,5 +1,7 @@
 package com.andrsam.dao;
 
+import java.util.List;
+
 /**
  * An interface for an account storage
  *
@@ -25,4 +27,9 @@ public interface AccountDao<K, V> {
      */
 
     boolean save(K accountId, V account);
+
+    /**
+     * returns a list if accounts
+     */
+    List<V> getAll();
 }

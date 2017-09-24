@@ -51,6 +51,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Account get(String accountId) {
+        return (Account) accountDao.get(accountId);
+    }
+
+    @Override
     public OpenAccountResponse save(String accountId) {
         String password = "";
         Account account = new Account(accountId, password);

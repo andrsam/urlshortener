@@ -2,6 +2,8 @@ package com.andrsam.dao;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -25,5 +27,10 @@ public class AccountDaoMemoryImpl<K, V> implements AccountDao<K, V> {
     @Override
     public boolean save(K accountId, V account) {
         return (storage.putIfAbsent(accountId, account) == null);
+    }
+
+    @Override
+    public List<V> getAll() {
+        return new ArrayList<>(storage.values());
     }
 }

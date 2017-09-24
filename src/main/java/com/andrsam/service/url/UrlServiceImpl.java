@@ -1,6 +1,8 @@
 package com.andrsam.service.url;
 
+import com.andrsam.dao.AccountDao;
 import com.andrsam.dao.UrlDao;
+import com.andrsam.model.Account;
 import com.andrsam.request.LongUrl;
 import com.andrsam.response.RegisterUrlResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -30,9 +33,12 @@ public class UrlServiceImpl implements UrlService {
 
     private final UrlDao urlDao;
 
+    private final AccountDao accountDao;
+
     @Autowired
-    public UrlServiceImpl(UrlDao urlDao, @Value("${urlshortener.baseUrl}") String baseUrl) {
+    public UrlServiceImpl(UrlDao urlDao, AccountDao accountDao, @Value("${urlshortener.baseUrl}") String baseUrl) {
         this.urlDao = urlDao;
+        this.accountDao = accountDao;
         this.baseUrl = baseUrl;
     }
 
@@ -54,6 +60,36 @@ public class UrlServiceImpl implements UrlService {
         List<LongUrl> urls = urlDao.getAll();
         Map<String, Integer> statistics = urls.stream().collect(toMap(LongUrl::getUrl, url -> url.getRedirectsCount().intValue()));
         return statistics;
+    }
+
+   /* @Override
+    public Map<String, Map<String, Integer>> generateStatByAccounts() {
+        List<Account> accounts = accountDao.getAll();
+        List<LongUrl> urls = urlDao.getAll();
+        Map<String, Map<String, Integer>> result = new HashMap<>();
+        for (Account account : accounts) {
+            String id = account.getId();
+            Map<String, Integer> statByUser = new HashMap<>();
+            for (LongUrl url : urls) {
+                if(account.equals(url.getAccount())){
+                    statByUser.put(url.getUrl(), url.getRedirectsCount().intValue());
+                }
+            }
+            result.put(id, statByUser);
+        }
+        return null;
+    }*/
+
+    @Override
+    public Map<String, Map<String, Integer>> generateStatByAccounts() {
+        List<Account> accounts = accountDao.getAll();
+        List<LongUrl> urls = urlDao.getAll();
+        Map<String, Map<String, Integer>> result = accounts.stream().collect(toMap(Account::getId, getStatisticsByAccount(urls, Function.identity())));
+        return null;
+    }
+
+    private Map<String, Integer> getStatisticsByAccount(List<LongUrl> urls, Account searchedAccount) {
+        return urls.stream().filter(account -> account.equals(searchedAccount)).collect(toMap(LongUrl::getUrl, url -> url.getRedirectsCount().intValue()));
     }
 
     /**

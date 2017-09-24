@@ -31,4 +31,11 @@ public interface UrlService {
      * @return a map with the url id and the redurects count
      */
     Map<String, Integer> generateStatistics();
+
+    /**
+     * returns the statistics by accounts
+     *
+     * @return a map with the url id and the redurects count
+     */
+    Map<String, Map<String, Integer>> generateStatByAccounts();
 }

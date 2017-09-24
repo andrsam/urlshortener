@@ -41,14 +41,14 @@ public class UrlShortenerRestController {
     }
 
     /**
-     * Registers a url with principal
+     * Registers a url with account
      *
      * @param longUrl - contains long url and redirect type
      * @return response with shortened url
      */
-    @PostMapping(value = "/register", produces = "application/json;UTF-8")
+    @PostMapping(value = "/registerByAccount", produces = "application/json;UTF-8")
     public RegisterUrlResponse registerByAccount(@RequestBody LongUrl longUrl, Principal principal) {
-
+        longUrl.setAccount(accountService.get(principal.getName()));
         return urlService.save(longUrl);
     }
 
@@ -89,4 +89,18 @@ public class UrlShortenerRestController {
         Map<String, Integer> response = urlService.generateStatistics();
         return response;
     }
+
+    /**
+     * Retrieves a statistics
+     *
+     * @return map with long url and redirects count
+     */
+    @GetMapping(value = "/statByAccounts", produces = "application/json;UTF-8")
+    @ResponseBody
+    public Map<String, Integer> retrieveStatisticsByAccounts() {
+        Map<String, Integer> response = urlService.generateStatistics();
+        return response;
+    }
+
+
 }
