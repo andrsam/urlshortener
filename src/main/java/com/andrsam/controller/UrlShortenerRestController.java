@@ -97,8 +97,8 @@ public class UrlShortenerRestController {
      */
     @GetMapping(value = "/statByAccounts", produces = "application/json;UTF-8")
     @ResponseBody
-    public Map<String, Integer> retrieveStatisticsByAccounts() {
-        Map<String, Integer> response = urlService.generateStatistics();
+    public Map<String, Map<String, Integer>> retrieveStatisticsByAccounts() {
+        Map<String, Map<String, Integer>> response = urlService.generateStatByAccounts();
         return response;
     }
 

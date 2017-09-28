@@ -25,20 +25,20 @@ import static org.junit.Assert.assertThat;
  */
 public class UrlShortenerRestControllerTest {
     private static final String ACCOUNT_ID = "test";
+
     private static final String URL = "http://stackoverflow.com/questions/1567929/website-safe-data-access-architecture-question?rq=1";
     private static final int REDIRECT_TYPE = 301;
     public static final String BASE_URL = "http://lvh.me/";
     public static final String URL_ID = "bvZSU";
-
     private AccountDao accountDao = new AccountDaoMemoryImpl();
+
     private AccountService accountService = new AccountServiceImpl(accountDao);
-
     private UrlDao urlDao = new UrlDaoMemoryImpl();
+
     private UrlService urlService = new UrlServiceImpl(urlDao, accountDao, BASE_URL);
-
     private UrlShortenerRestController urlShortenerRestController = new UrlShortenerRestController(accountService, urlService);
-    private OpenAccount openAccount = new OpenAccount();
 
+    private OpenAccount openAccount = new OpenAccount();
     @Test
     public void account() throws Exception {
         openAccount.setAccountId(ACCOUNT_ID);
@@ -59,6 +59,14 @@ public class UrlShortenerRestControllerTest {
     }
 
     @Test
+    public void registerByAccount() throws Exception {
+    }
+
+    @Test
+    public void retrieveStatisticsByAccounts() throws Exception {
+    }
+
+    @Test
     public void register() throws Exception {
         LongUrl longUrl = new LongUrl(URL, REDIRECT_TYPE);
         RegisterUrlResponse response = urlShortenerRestController.register(longUrl);
@@ -73,5 +81,4 @@ public class UrlShortenerRestControllerTest {
         Map<String, Integer> statistics = urlShortenerRestController.retrieveStatistics();
         assertThat(statistics.get(URL), is(1));
     }
-
 }
