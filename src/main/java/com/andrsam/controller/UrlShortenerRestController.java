@@ -8,10 +8,10 @@ import com.andrsam.service.account.AccountService;
 import com.andrsam.service.url.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.security.Principal;
 import java.util.Map;
 
 /**
@@ -47,8 +47,9 @@ public class UrlShortenerRestController {
      * @return response with shortened url
      */
     @PostMapping(value = "/registerByAccount", produces = "application/json;UTF-8")
-    public RegisterUrlResponse registerByAccount(@RequestBody LongUrl longUrl, Principal principal) {
-        longUrl.setAccount(accountService.get(principal.getName()));
+    public RegisterUrlResponse registerByAccount(@RequestBody LongUrl longUrl) {
+        String accountId = SecurityContextHolder.getContext().getAuthentication().getName();
+        longUrl.setAccount(accountService.get(accountId));
         return urlService.save(longUrl);
     }
 

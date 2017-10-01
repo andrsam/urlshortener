@@ -70,7 +70,7 @@ public class UrlServiceImpl implements UrlService {
     }
 
     private Map<String, Integer> getStatisticsByAccount(List<LongUrl> urls, Account searchedAccount) {
-        return urls.stream().filter(account -> account.equals(searchedAccount)).collect(toMap(LongUrl::getUrl, url -> url.getRedirectsCount().intValue()));
+        return urls.stream().filter(url -> url.getAccount().equals(searchedAccount)).collect(toMap(LongUrl::getUrl, url -> url.getRedirectsCount().intValue()));
     }
 
     /**
