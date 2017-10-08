@@ -14,8 +14,10 @@ import com.andrsam.service.url.UrlService;
 import com.andrsam.service.url.UrlServiceImpl;
 import org.junit.Test;
 
+import java.security.Principal;
 import java.util.Map;
 
+import static org.easymock.EasyMock.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -60,6 +62,11 @@ public class UrlShortenerRestControllerTest {
 
     @Test
     public void registerByAccount() throws Exception {
+        openAccount.setAccountId(ACCOUNT_ID);
+        urlShortenerRestController.account(openAccount);
+        Principal principalMock = createMock(Principal.class);
+        expect(principalMock.getName()).andReturn(ACCOUNT_ID);
+        replay();
     }
 
     @Test
