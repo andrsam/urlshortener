@@ -12,6 +12,7 @@ import com.andrsam.service.account.AccountService;
 import com.andrsam.service.account.AccountServiceImpl;
 import com.andrsam.service.url.UrlService;
 import com.andrsam.service.url.UrlServiceImpl;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.security.Principal;
@@ -27,11 +28,11 @@ import static org.junit.Assert.assertThat;
  */
 public class UrlShortenerRestControllerTest {
     private static final String ACCOUNT_ID = "test";
-
     private static final String URL = "http://stackoverflow.com/questions/1567929/website-safe-data-access-architecture-question?rq=1";
     private static final int REDIRECT_TYPE = 301;
-    public static final String BASE_URL = "http://lvh.me/";
-    public static final String URL_ID = "bvZSU";
+    private static final String BASE_URL = "http://lvh.me/";
+    private static final String URL_ID = "bvZSU";
+
     private AccountDao accountDao = new AccountDaoMemoryImpl();
 
     private AccountService accountService = new AccountServiceImpl(accountDao);
@@ -41,9 +42,17 @@ public class UrlShortenerRestControllerTest {
     private UrlShortenerRestController urlShortenerRestController = new UrlShortenerRestController(accountService, urlService);
 
     private OpenAccount openAccount = new OpenAccount();
+    private Principal principalMock = createMock(Principal.class);
+
+    @Before
+    public void setUp() throws Exception {
+        openAccount.setAccountId(ACCOUNT_ID);
+        expect(principalMock.getName()).andReturn(ACCOUNT_ID);
+        replay(principalMock);
+    }
+
     @Test
     public void account() throws Exception {
-        openAccount.setAccountId(ACCOUNT_ID);
         OpenAccountResponse openAccountResponse = urlShortenerRestController.account(openAccount);
         assertThat(openAccountResponse.isSuccess(), is(true));
         assertThat(openAccountResponse.getDescription(), is("Your account is opened"));
@@ -52,7 +61,6 @@ public class UrlShortenerRestControllerTest {
 
     @Test
     public void testAccountAlreadyOpened() {
-        openAccount.setAccountId(ACCOUNT_ID);
         urlShortenerRestController.account(openAccount);
         OpenAccountResponse openAccountWrongResponse = urlShortenerRestController.account(openAccount);
         assertThat(openAccountWrongResponse.isSuccess(), is(false));
@@ -62,15 +70,11 @@ public class UrlShortenerRestControllerTest {
 
     @Test
     public void registerByAccount() throws Exception {
-        openAccount.setAccountId(ACCOUNT_ID);
         urlShortenerRestController.account(openAccount);
-        Principal principalMock = createMock(Principal.class);
-        expect(principalMock.getName()).andReturn(ACCOUNT_ID);
-        replay();
-    }
-
-    @Test
-    public void retrieveStatisticsByAccounts() throws Exception {
+        LongUrl longUrl = new LongUrl(URL, REDIRECT_TYPE);
+        RegisterUrlResponse response = urlShortenerRestController.registerByAccount(longUrl, principalMock);
+        assertThat(response.getShortUrl(), is(BASE_URL + URL_ID));
+        assertThat(longUrl.getAccount().getId(), is(ACCOUNT_ID));
     }
 
     @Test
@@ -87,5 +91,15 @@ public class UrlShortenerRestControllerTest {
         urlShortenerRestController.redirectToUrl(response.getShortUrl().replace(BASE_URL, ""));
         Map<String, Integer> statistics = urlShortenerRestController.retrieveStatistics();
         assertThat(statistics.get(URL), is(1));
+    }
+
+    @Test
+    public void retrieveStatisticsByAccounts() throws Exception {
+        urlShortenerRestController.account(openAccount);
+        LongUrl longUrl = new LongUrl(URL, REDIRECT_TYPE);
+        RegisterUrlResponse response = urlShortenerRestController.registerByAccount(longUrl, principalMock);
+        urlShortenerRestController.redirectToUrl(response.getShortUrl().replace(BASE_URL, ""));
+        Map<String, Map<String, Integer>> statisticsByAccounts = urlShortenerRestController.retrieveStatisticsByAccounts();
+        assertThat(statisticsByAccounts.get(ACCOUNT_ID).get(URL), is(1));
     }
 }
